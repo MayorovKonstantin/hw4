@@ -5,7 +5,7 @@ tests_dir="./acceptance-tests/"
 input_dir="${tests_dir}input/"
 output_dir="${tests_dir}output/"
 user_dir="${tests_dir}user/"
-path_to_bin="./uniq_exec"
+path_to_bin="./uniq_exec_exec"
 # SETTINGS
 
 function parse_params () {
