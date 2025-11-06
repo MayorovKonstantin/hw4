@@ -25,7 +25,7 @@ func TestUniqCount(t *testing.T) {
 	input := []string{"foo", "foo", "bar"}
 	opts := Options{Count: true}
 	result := Uniq(input, opts)
-	expected := []string{"2 foo", "      }
+	expected := []string{"2 foo", "1 bar"}
 	if len(result) != 2 {
 		t.Errorf("Expected 2 lines, got %d", len(result))
 	}
