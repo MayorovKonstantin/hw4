@@ -36,36 +36,30 @@ func Uniq(lines []string, opts Options) []string {
 		if key == prevKey {
 			count++
 		} else {
-			// Output previous group
-			if shouldOutput(count, opts) {
-				if opts.Count {
-					result = append(result, formatWithCount(count, prevLine))
-				} else {
-					result = append(result, prevLine)
-				}
-			}
+			result = appendGroup(result, count, prevLine, opts)
 			prevKey = key
 			prevLine = line
 			count = 1
 		}
 	}
 
-	// Output last group
+	result = appendGroup(result, count, prevLine, opts)
+	return result
+}
+
+func appendGroup(result []string, count int, line string, opts Options) []string {
 	if shouldOutput(count, opts) {
 		if opts.Count {
-			result = append(result, formatWithCount(count, prevLine))
-		} else {
-			result = append(result, prevLine)
+			return append(result, formatWithCount(count, line))
 		}
+		return append(result, line)
 	}
-
 	return result
 }
 
 func getKey(line string, opts Options) string {
 	key := line
 
-	// Skip fields
 	if opts.SkipFields > 0 {
 		fields := strings.Fields(key)
 		skip := opts.SkipFields
@@ -76,7 +70,6 @@ func getKey(line string, opts Options) string {
 		}
 	}
 
-	// Skip characters
 	if opts.SkipChars > 0 {
 		skip := opts.SkipChars
 		if skip < len(key) {
@@ -86,7 +79,6 @@ func getKey(line string, opts Options) string {
 		}
 	}
 
-	// Ignore case
 	if opts.IgnoreCase {
 		key = strings.ToLower(key)
 	}
@@ -95,16 +87,12 @@ func getKey(line string, opts Options) string {
 }
 
 func shouldOutput(count int, opts Options) bool {
-	// -d: only duplicates (count > 1)
 	if opts.DuplicatesOnly {
 		return count > 1
 	}
-
-	// -u: only unique (count == 1)
 	if opts.UniqueOnly {
 		return count == 1
 	}
-
 	return true
 }
 
