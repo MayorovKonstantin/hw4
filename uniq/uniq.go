@@ -97,5 +97,5 @@ func shouldOutput(count int, opts Options) bool {
 }
 
 func formatWithCount(count int, line string) string {
-	return fmt.Sprintf("%7d %s", count, line)
+	return fmt.Sprintf("%d %s", count, line)
 }
